@@ -2,8 +2,8 @@ homeassistant:
   # Name of the location where Home Assistant is running
   name: Home
   # Location required to calculate the time the sun rises and sets
-  latitude: 59.3326
-  longitude: 18.0649
+  latitude: !secret lat
+  longitude: !secret long
   # Impacts weather/sunrise data
   elevation: 26
   # C for Celsius, F for Fahrenheit
@@ -19,7 +19,7 @@ frontend:
 
 http:
   # Uncomment this to add a password (recommended!)
-  # api_password: PASSWORD
+  api_password: !secret http_password
 
 # Checks for available updates
 updater:
@@ -42,3 +42,11 @@ sun:
 # Weather Prediction
 sensor:
   platform: yr
+
+# Plex Monitor
+sensor:
+  platform: plex
+  name: Plex Spy
+  host: 192.168.2.80
+  port: 29301
+  server: Flashlight
