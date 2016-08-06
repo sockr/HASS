@@ -1,0 +1,26 @@
+####### GROUP #######
+
+####### Views #######
+default_view:
+  view: yes
+  entities:
+    - group.weather
+    - group.speedtest
+
+####### Groups #######
+
+    
+speedtest:
+  name: Speedtest
+  entities:
+    - sensor.speedtest_ping
+    - sensor.speedtest_download
+    - sensor.speedtest_upload
+
+
+weather:
+  name: Weather
+  entities:
+    - sensor.yweather_weather
+    - sensor.yweather_temperature
+    - sensor.yweather_humidity

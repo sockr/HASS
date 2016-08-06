@@ -1,45 +1,60 @@
 homeassistant:
-  # Name of the location where Home Assistant is running
   name: Home
-  # Location required to calculate the time the sun rises and sets
   latitude: !secret lat
   longitude: !secret long
-  # Impacts weather/sunrise data
   elevation: 26
-  # C for Celsius, F for Fahrenheit
   temperature_unit: C
-  # Pick yours from here: http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
   time_zone: Europe/Stockholm
   customize: !include customize.yaml
 
-# Show links to resources in log and frontend
-# introduction:
-
-# Enables the frontend
-frontend:
-# Groups #
-group: !include groups.yaml
-sensor: !include sensors.yaml
-
 http:
-  # Uncomment this to add a password (recommended!)
   #api_password: !secret http_password
+  
 
-# Checks for available updates
+####### Components #######
+
 updater:
-
-# Discover some devices automatically
-discovery:
-
-# Allows you to issue voice commands from the frontend in enabled browsers
-conversation:
-
-# Enables support for tracking state changes over time.
 history:
-
-# View all events in a logbook
 logbook:
+frontend:
+discovery:
+recorder:
+  purge_days: 4
 
-# Track the sun
-sun:
+logger:
+    default: info
+    logs:
+     group.settings: critical
+
+
+  
+####### Sensors #######
+
+sensor:
+  - platform: speedtest
+    minute: 30
+    hour:
+      - 0
+      - 6
+      - 12
+      - 18
+    monitored_conditions:
+      - ping
+      - download
+      - upload
+
+
+  - platform: yweather
+    monitored_conditions:
+      - weather
+      - temperature
+      - humidity
+
+####### Zones #######
+
+####### Inputs #######
+
+####### Groups #######
+group: !include group.yaml
+
 

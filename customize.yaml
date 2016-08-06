@@ -1,32 +1,31 @@
-### CUSTOMIZE ###
+####### CUSTOMIZE #######
 
-## Default View ##
+####### Devices #######
+####### Inputs #######
+####### Sensors #######
 
 # Speedtest #
 sensor.speedtest_ping:
   icon: mdi:speedometer
-  friendly_name: Ping
+  friendly_name: 'Ping'
+
 sensor.speedtest_download:
   icon: mdi:download
-  friendly_name: Download
+  friendly_name: 'Download'
+
 sensor.speedtest_upload:
   icon: mdi:upload
-  friendly_name: Upload
-# Yr #
-sensor.yr_temperature:
-  icon: mdi:temprature
-  friendly_name: Temp
-sensor.yr_symbol
+  friendly_name: 'Upload'
 
-sensor.yr_precipitation
-  icon: mdi:precipitation
-  friendly_name: Preci
-sensor.yr_windSpeed
-  icon: mdi:windspeed
-  friendly_name: Wind
-sensor.yr_pressure
-  icon: mdi:pressure
-  friendly_name: Pressure
-sensor.yr_humidity
-  icon: mdi:humidity
-  friendly_name: Humidity
+# Weather #
+sensor.yweather_weather:
+  friendly_name: 'Weather'
+  icon: mdi:weather-sunny
+
+sensor.yweather_temperature:
+  friendly_name: 'Temperature'
+  icon: mdi:temperature-celsius
+
+sensor.yweather_humidity:
+  friendly_name: 'Humidity'
+  icon: mdi:water-percent
