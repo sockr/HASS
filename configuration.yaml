@@ -10,16 +10,20 @@ homeassistant:
   temperature_unit: C
   # Pick yours from here: http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
   time_zone: Europe/Stockholm
+  customize: !include customize.yaml
 
 # Show links to resources in log and frontend
-introduction:
+# introduction:
 
 # Enables the frontend
 frontend:
+# Groups #
+group: !include groups.yaml
+sensor: !include sensors.yaml
 
 http:
   # Uncomment this to add a password (recommended!)
-  api_password: !secret http_password
+  #api_password: !secret http_password
 
 # Checks for available updates
 updater:
@@ -39,14 +43,3 @@ logbook:
 # Track the sun
 sun:
 
-# Weather Prediction
-sensor:
-  platform: yr
-
-# Plex Monitor
-sensor:
-  platform: plex
-  name: Plex Spy
-  host: 192.168.2.80
-  port: 29301
-  server: Flashlight

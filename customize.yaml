@@ -1,0 +1,32 @@
+### CUSTOMIZE ###
+
+## Default View ##
+
+# Speedtest #
+sensor.speedtest_ping:
+  icon: mdi:speedometer
+  friendly_name: Ping
+sensor.speedtest_download:
+  icon: mdi:download
+  friendly_name: Download
+sensor.speedtest_upload:
+  icon: mdi:upload
+  friendly_name: Upload
+# Yr #
+sensor.yr_temperature:
+  icon: mdi:temprature
+  friendly_name: Temp
+sensor.yr_symbol
+
+sensor.yr_precipitation
+  icon: mdi:precipitation
+  friendly_name: Preci
+sensor.yr_windSpeed
+  icon: mdi:windspeed
+  friendly_name: Wind
+sensor.yr_pressure
+  icon: mdi:pressure
+  friendly_name: Pressure
+sensor.yr_humidity
+  icon: mdi:humidity
+  friendly_name: Humidity
