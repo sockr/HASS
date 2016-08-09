@@ -1,9 +1,5 @@
 ####### CUSTOMIZE #######
 
-####### Devices #######
-####### Inputs #######
-####### Sensors #######
-
 # Speedtest #
 sensor.speedtest_ping:
   icon: mdi:speedometer
@@ -17,15 +13,24 @@ sensor.speedtest_upload:
   icon: mdi:upload
   friendly_name: 'Upload'
 
-# Weather #
-sensor.yweather_weather:
-  friendly_name: 'Weather'
-  icon: mdi:weather-sunny
+# Forecast #
+sensor.weather_summary:
+  icon: mdi:weather-cloudy
+  friendly_name: 'Summary'
 
-sensor.yweather_temperature:
-  friendly_name: 'Temperature'
+sensor.weather_temperature:
   icon: mdi:temperature-celsius
+  friendly_name: 'Temp'
 
-sensor.yweather_humidity:
-  friendly_name: 'Humidity'
-  icon: mdi:water-percent
+sensor.weather_hourly_summary:
+  icon: mdi:weather-sunset-up
+  friendly_name: 'Forecast'
+  
+# Bitcoin #
+sensor.exchange_rate_1_btc:
+  icon: mdi:currency-btc
+  friendly_name: 'Rate'
+  
+sensor.market_price:
+  friendly_name: 'Market Price'
+  

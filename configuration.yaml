@@ -1,5 +1,5 @@
 homeassistant:
-  name: Home
+  name: The Hand
   latitude: !secret lat
   longitude: !secret long
   elevation: 26
@@ -27,34 +27,63 @@ logger:
      group.settings: critical
 
 
+light:
+  platform: hue
+  host: 192.168.2.68
+  allow_unreachable: true
+  filename: phue.conf
   
 ####### Sensors #######
 
 sensor:
-  - platform: speedtest
-    minute: 30
-    hour:
-      - 0
-      - 6
-      - 12
-      - 18
-    monitored_conditions:
-      - ping
-      - download
-      - upload
+  platform: speedtest
+  minute: 30
+  hour:
+    - 0
+    - 6
+    - 12
+    - 18
+  monitored_conditions:
+    - ping
+    - download
+    - upload
 
+sensor 2:
+  platform: plex
+  host: 192.168.1.80
+  
+sensor 3:
+  platform: forecast
+  api_key: !secret forecast_api
+  monitored_conditions:
+    - summary
+    - temperature
+    - hourly_summary
 
-  - platform: yweather
-    monitored_conditions:
-      - weather
-      - temperature
-      - humidity
-
+sensor 4:
+  platform: bitcoin
+  currency: SEK
+  display_options:
+    - exchangerate
+    - market_price_usd
+    
 ####### Zones #######
 
 ####### Inputs #######
 
 ####### Groups #######
-group: !include group.yaml
+group:
+  
+  Speedtest:
+    - sensor.speedtest_ping
+    - sensor.speedtest_download
+    - sensor.speedtest_upload
 
-
+  Weather:
+    - sensor.weather_summary
+    - sensor.weather_temperature
+    - sensor.weather_hourly_summary
+    
+  Bitcoin:
+    - sensor.exchange_rate_1_btc
+    - sensor.market_price
