@@ -8,7 +8,7 @@ homeassistant:
   customize: !include customize.yaml
 
 http:
-  #api_password: !secret http_password
+  api_password: !secret http_password
   
 
 ####### Components #######
@@ -26,12 +26,13 @@ logger:
     logs:
      group.settings: critical
 
-
 light:
+  light:
   platform: hue
   host: 192.168.2.68
   allow_unreachable: true
-  filename: phue.conf
+  
+  
   
 ####### Sensors #######
 
@@ -59,14 +60,8 @@ sensor 3:
     - summary
     - temperature
     - hourly_summary
-
-sensor 4:
-  platform: bitcoin
-  currency: SEK
-  display_options:
-    - exchangerate
-    - market_price_usd
     
+
 ####### Zones #######
 
 ####### Inputs #######
@@ -84,6 +79,3 @@ group:
     - sensor.weather_temperature
     - sensor.weather_hourly_summary
     
-  Bitcoin:
-    - sensor.exchange_rate_1_btc
-    - sensor.market_price

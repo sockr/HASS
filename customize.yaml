@@ -26,11 +26,4 @@ sensor.weather_hourly_summary:
   icon: mdi:weather-sunset-up
   friendly_name: 'Forecast'
   
-# Bitcoin #
-sensor.exchange_rate_1_btc:
-  icon: mdi:currency-btc
-  friendly_name: 'Rate'
-  
-sensor.market_price:
-  friendly_name: 'Market Price'
   
