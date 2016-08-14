@@ -23,17 +23,29 @@ sensor.weather_temperature:
   friendly_name: 'Temp'
 
 sensor.weather_hourly_summary:
-  icon: mdi:weather-sunset-up
+  icon: mdi:weather-sunny
   friendly_name: 'Forecast'
   
-  
-# Travel Time #
+sun.sun:
+  icon: mdi:weather-sunset-up
+  friendly_name: 'Sun'
 
-sensor.travel_time:
-  icon: mdi:bus
-  friendly_name: 'Travel Time'
+
   
-# Dwellers #
-device_tracker.192168224:
+# Dwellers Corner #
+
+device_tracker.shjosan_oneplus2:
   icon: mdi:human
   friendly_name: 'Joel'
+  
+sensor.home_to_work:
+  icon: mdi:bus
+  friendly_name: 'Home to Work'
+  
+sensor.phone_to_work:
+  icon: mdi:car
+  friendly_name: 'Phone to Work'
+  
+sensor.phone_to_whovalley:
+  icon: mdi:car
+  friendly_name: 'Phone to WhoValley'

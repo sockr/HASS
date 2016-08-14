@@ -20,6 +20,7 @@ history:
 logbook:
 frontend:
 discovery:
+sun:
 recorder:
   purge_days: 4
 
@@ -39,13 +40,14 @@ media_player:
   host: 192.168.2.27
 
 device_tracker:
-  - platform: nmap_tracker
-    hosts: 192.168.2.1/24
-    home_interval: 5
-    track_new_devices: no
+#  platform: nmap_tracker#
+#  hosts: 192.168.2.1/24#
+#  home_interval: 5#
+#  track_new_devices: no#
+#  interval_seconds: 30#
   
-  - platform: owntracks
-    max_gps_accuracy: 200
+  platform: owntracks
+  max_gps_accuracy: 200
 
 mqtt:
   broker: 192.168.2.52
@@ -89,14 +91,26 @@ sensor 3:
     - hourly_summary
 
 sensor 4:
-    platform: google_travel_time
-    name: Travel Time
+  - platform: google_travel_time
+    name: Home to Work
     api_key: !secret google_api
     origin: !secret travel_origin
     destination: !secret travel_destination
     options:
       arrival_time: 08:00:00
       mode: transit
+      
+  - platform: google_travel_time
+    name: Phone to Work
+    api_key: !secret google_api
+    origin: device_tracker.shjosan_oneplus2
+    destination: zone.work
+    
+  - platform: google_travel_time
+    name: Phone to WhoValley
+    api_key: !secret google_api
+    origin: device_tracker.shjosan_oneplus2
+    destination: zone.whovalley
 
       
 #####################    
@@ -115,7 +129,7 @@ zone 2:
   latitude: !secret lat_work
   longitude: !secret long_work
   radius: 300
-  icon: mdi:school
+  icon: mdi:home-modern
 
 zone 3:
   name: WhoValley
@@ -123,13 +137,101 @@ zone 3:
   longitude: !secret long_who
   radius: 100
   icon: mdi:gondola
+  passive: true
+
+######################
+####### Scenes #######
+######################
+
+scene:
+  - name: 'Normal Mode'
+    entities:
+      light.vardagsrum_tak_1:
+        state: on
+        brightness: 49
+        color_temp: 424
+        rgb_color: [152,110,51]
+      light.vardagsrum_tak_2:
+        state: on
+        brightness: 49
+        color_temp: 424
+        rgb_color: [152,110,51]
+      light.vardagsrum_tak_3:
+        state: on
+        brightness: 49
+        color_temp: 424
+        rgb_color: [152,110,51]
+      light.vardagsrum_tak_4:
+        state: on
+        brightness: 49
+        color_temp: 424
+        rgb_color: [152,110,51]
+        
+  - name: 'Kitchen On'
+    entities:
+      light.kk:
+        state: on
+        brightness: 254
+        color_temp: 199
+        rgb_color: [255,240,219]
+        
+  - name: 'Night Lights'
+    entities:
+      light.vardagsrum_tak_1:
+        state: on
+        brightness: 12
+        color_temp: 500
+        rgb_color: [51,51,205]
+      light.vardagsrum_tak_2:
+        state: on
+        brightness: 12
+        color_temp: 500
+        rgb_color: [51,51,205]
+      light.vardagsrum_tak_3:
+        state: on
+        brightness: 12
+        color_temp: 500
+        rgb_color: [51,51,205]
+      light.vardagsrum_tak_4:
+        state: on
+        brightness: 12
+        color_temp: 500
+        rgb_color: [51,51,205]  
+      light.kk:
+        state: on
+        brightness: 12
+        color_temp: 500
+        rgb_color: [51,51,205]
+
+        
+        
+##########################
+####### Automation #######
+##########################
+
+automation:
+- alias: 'Coming Home'
   
-
-######################
-####### Inputs #######
-######################
-
-
+  trigger:
+   - platform: state
+     entity_id: group.dwellers
+     state: 'home'
+      
+  condition:
+    condition: and
+    conditions:
+      - condition: sun
+        after: sunset
+      - condition: time
+        before: '23:59'
+        
+  action:
+    service: light.turn_on
+    entity_id: group.ceiling
+    data:
+      brightness: 111
+      rgb_color: [237,177,89]
+      color_temp: 500
 
 
 ######################
@@ -137,18 +239,77 @@ zone 3:
 ######################
 
 group:
+
+  default_view:
+    view: yes
+    entities:
+      - group.weather
+      - group.info
+      - group.dwellers
+      
+  lightsview:
+    name: Lights
+    view: yes
+    entities:
+      - group.lights
+      - group.ceiling
+      - group.modes
+      
+  media:
+    name: Media
+    view: yes
+    entities:
+      - media_player.kurvan
+      - media_player.my_qv151e
+      - media_player.plex_web_chrome
+      - media_player.ponyo
+
   
-  Info:
+  info:
+    name: Info
+    entities:
     - sensor.speedtest_ping
     - sensor.speedtest_download
     - sensor.speedtest_upload
     - sensor.plex
 
-  Weather:
+  weather:
+    name: Weather
+    entities:
+    - sun.sun
     - sensor.weather_summary
     - sensor.weather_temperature
     - sensor.weather_hourly_summary
   
-  Dwellers:
-    - device_tracker.192168224
-    - sensor.travel_time
+  dwellers:
+    name: Dwellers corner
+    entities:
+    - device_tracker.shjosan_oneplus2
+
+  transit:
+    name: Transit
+    entities:
+    - sensor.home_to_work
+    - sensor.phone_to_work
+    - sensor.phone_to_whovalley    
+    
+  ceiling:
+    name: Ceiling
+    entities:
+    - light.vardagsrum_tak_1
+    - light.vardagsrum_tak_2
+    - light.vardagsrum_tak_3
+    - light.vardagsrum_tak_4
+   
+  lights:
+    name: Other lights
+    entities:
+    - light.sovrum
+    - light.kk
+    
+  modes:
+    name: Light modes
+    entities:
+    - scene.normal_mode
+    - scene.kitchen_on
+    - scene.night_lights
