@@ -1,1 +1,0 @@
-16-08-05 18:24:54 homeassistant.bootstrap: Not initializing discovery because could not install dependency netdisco==0.7.0
