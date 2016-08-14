@@ -1,5 +1,5 @@
 homeassistant:
-  name: The Hand
+  name: Sockr Base
   latitude: !secret lat
   longitude: !secret long
   elevation: 26
@@ -11,7 +11,9 @@ http:
   api_password: !secret http_password
   
 
+##########################
 ####### Components #######
+##########################
 
 updater:
 history:
@@ -32,9 +34,31 @@ light:
   host: 192.168.2.68
   allow_unreachable: true
   
+media_player:
+  platform: cast
+  host: 192.168.2.27
+
+device_tracker:
+  - platform: nmap_tracker
+    hosts: 192.168.2.1/24
+    home_interval: 5
+    track_new_devices: no
   
-  
+  - platform: owntracks
+    max_gps_accuracy: 200
+
+mqtt:
+  broker: 192.168.2.52
+  port: 1883
+  client_id: home-assistant-1
+  keepalive: 60
+  username: !secret mqtt_user
+  password: !secret mqtt_pass
+ 
+ 
+#######################
 ####### Sensors #######
+#######################
 
 sensor:
   platform: speedtest
@@ -52,6 +76,9 @@ sensor:
 sensor 2:
   platform: plex
   host: 192.168.1.80
+  username: !secret plex_user
+  password: !secret plex_pass
+  server: Flashlight
   
 sensor 3:
   platform: forecast
@@ -60,22 +87,68 @@ sensor 3:
     - summary
     - temperature
     - hourly_summary
-    
 
+sensor 4:
+    platform: google_travel_time
+    name: Travel Time
+    api_key: !secret google_api
+    origin: !secret travel_origin
+    destination: !secret travel_destination
+    options:
+      arrival_time: 08:00:00
+      mode: transit
+
+      
+#####################    
 ####### Zones #######
+#####################
 
+zone:
+  name: Home
+  latitude: !secret lat
+  longitude: !secret long
+  radius: 100
+  icon: mdi:home-variant
+
+zone 2:
+  name: Work
+  latitude: !secret lat_work
+  longitude: !secret long_work
+  radius: 300
+  icon: mdi:school
+
+zone 3:
+  name: WhoValley
+  latitude: !secret lat_who
+  longitude: !secret long_who
+  radius: 100
+  icon: mdi:gondola
+  
+
+######################
 ####### Inputs #######
+######################
 
+
+
+
+######################
 ####### Groups #######
+######################
+
 group:
   
-  Speedtest:
+  Info:
     - sensor.speedtest_ping
     - sensor.speedtest_download
     - sensor.speedtest_upload
+    - sensor.plex
 
   Weather:
     - sensor.weather_summary
     - sensor.weather_temperature
     - sensor.weather_hourly_summary
-    
+  
+  Dwellers:
+    - device_tracker.192168224
+    - sensor.travel_time

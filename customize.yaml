@@ -27,3 +27,13 @@ sensor.weather_hourly_summary:
   friendly_name: 'Forecast'
   
   
+# Travel Time #
+
+sensor.travel_time:
+  icon: mdi:bus
+  friendly_name: 'Travel Time'
+  
+# Dwellers #
+device_tracker.192168224:
+  icon: mdi:human
+  friendly_name: 'Joel'
