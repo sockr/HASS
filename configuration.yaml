@@ -40,14 +40,14 @@ media_player:
   host: 192.168.2.27
 
 device_tracker:
-#  platform: nmap_tracker#
-#  hosts: 192.168.2.1/24#
-#  home_interval: 5#
-#  track_new_devices: no#
-#  interval_seconds: 30#
+  - platform: nmap_tracker
+    hosts: 192.168.2.1/24
+    home_interval: 5
+    track_new_devices: no
+    interval_seconds: 30
   
-  platform: owntracks
-  max_gps_accuracy: 200
+  - platform: owntracks
+    max_gps_accuracy: 200
 
 mqtt:
   broker: 192.168.2.52
@@ -56,6 +56,7 @@ mqtt:
   keepalive: 60
   username: !secret mqtt_user
   password: !secret mqtt_pass
+
  
  
 #######################
@@ -89,6 +90,9 @@ sensor 3:
     - summary
     - temperature
     - hourly_summary
+    - wind_speed
+    - wind_bearing
+    - precip_type
 
 sensor 4:
   - platform: google_travel_time
@@ -112,6 +116,15 @@ sensor 4:
     origin: device_tracker.shjosan_oneplus2
     destination: zone.whovalley
 
+sensor 5:
+  platform: sabnzbd
+  name: SAB
+  api_key: !secret sab_api
+  base_url: !secret sab_url
+  monitored_variables:
+    - type: 'current_status'
+    - type: 'queue_size'
+#   - type: 'queue_remaining'
       
 #####################    
 ####### Zones #######
@@ -199,9 +212,25 @@ scene:
         rgb_color: [51,51,205]  
       light.kk:
         state: on
-        brightness: 12
+        brightness: 75
         color_temp: 500
         rgb_color: [51,51,205]
+        
+  - name: 'All Off'
+    entities:
+      light.vardagsrum_tak_1:
+        state: off
+      light.vardagsrum_tak_2:
+        state: off
+      light.vardagsrum_tak_3:
+        state: off
+      light.vardagsrum_tak_4:
+        state: off
+      light.kk:
+        state: off
+      light.sovrum:
+        state: off
+      
 
         
         
@@ -272,6 +301,8 @@ group:
     - sensor.speedtest_download
     - sensor.speedtest_upload
     - sensor.plex
+    - sensor.sab_status
+    - sensor.sab_queue
 
   weather:
     name: Weather
@@ -279,19 +310,23 @@ group:
     - sun.sun
     - sensor.weather_summary
     - sensor.weather_temperature
+    - sensor.weather_precip_type
+    - sensor.weather_wind_speed
+    - sensor.weather_wind_bearing
     - sensor.weather_hourly_summary
   
   dwellers:
     name: Dwellers corner
     entities:
     - device_tracker.shjosan_oneplus2
-
-  transit:
-    name: Transit
-    entities:
     - sensor.home_to_work
     - sensor.phone_to_work
-    - sensor.phone_to_whovalley    
+    - sensor.phone_to_whovalley 
+
+#  transit:
+#    name: Transit
+#    entities:
+  
     
   ceiling:
     name: Ceiling
@@ -313,3 +348,4 @@ group:
     - scene.normal_mode
     - scene.kitchen_on
     - scene.night_lights
+    - scene.all_off

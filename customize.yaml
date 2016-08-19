@@ -1,6 +1,10 @@
 ####### CUSTOMIZE #######
 
-# Speedtest #
+
+#######################
+###### Speedtest ######
+#######################
+
 sensor.speedtest_ping:
   icon: mdi:speedometer
   friendly_name: 'Ping'
@@ -13,7 +17,11 @@ sensor.speedtest_upload:
   icon: mdi:upload
   friendly_name: 'Upload'
 
-# Forecast #
+  
+######################
+###### Forecast ######
+######################
+
 sensor.weather_summary:
   icon: mdi:weather-cloudy
   friendly_name: 'Summary'
@@ -21,6 +29,18 @@ sensor.weather_summary:
 sensor.weather_temperature:
   icon: mdi:temperature-celsius
   friendly_name: 'Temp'
+  
+sensor.weather_wind_speed:
+  icon: mdi:weather-windy
+  friendly_name: 'Wind'
+  
+sensor.weather_wind_bearing:
+  icon: mdi:trending-up
+  friendly_name: 'Wind direction'
+
+sensor.precip_type:
+  icon: mdi:weather-snowy-rainy
+  friendly_name: 'Precipitation'  
 
 sensor.weather_hourly_summary:
   icon: mdi:weather-sunny
@@ -30,9 +50,23 @@ sun.sun:
   icon: mdi:weather-sunset-up
   friendly_name: 'Sun'
 
+  
+#####################
+###### SABnzbd ######
+#####################
+
+sensor.sab_status:
+  icon: mdi:magnify
+  friendly_name: 'SABnzbd Status'
+  
+sensor.sab_queue:
+  icon: mdi:timelapse
+  friendly_name: 'SABnzbd Queue'
 
   
-# Dwellers Corner #
+#############################  
+###### Dwellers Corner ######
+#############################
 
 device_tracker.shjosan_oneplus2:
   icon: mdi:human
