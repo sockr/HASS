@@ -56,6 +56,12 @@ mqtt:
   keepalive: 60
   username: !secret mqtt_user
   password: !secret mqtt_pass
+  
+notify:
+  name: sockerbot
+  platform: telegram
+  api_key: !secret telegram_api
+  chat_id: !secret chat_id
 
  
  
@@ -240,11 +246,11 @@ scene:
 
 automation:
 - alias: 'Coming Home'
-  
   trigger:
    - platform: state
      entity_id: group.dwellers
-     state: 'home'
+     from: 'not_home'
+     to: 'home'
       
   condition:
     condition: and
@@ -255,14 +261,39 @@ automation:
         before: '23:59'
         
   action:
-    service: light.turn_on
-    entity_id: group.ceiling
-    data:
-      brightness: 111
-      rgb_color: [237,177,89]
-      color_temp: 500
+    - service: light.turn_on
+      entity_id: group.ceiling
+      data:
+        brightness: 111
+        rgb_color: [237,177,89]
+        color_temp: 500
+    - service: notify.sockerbot
+      data:
+        message: Welcome home
 
+- alias: 'Away Mode'
 
+  trigger:
+    - platform: state
+      entity_id: group.dwellers
+      from: 'home'
+      to: 'not_home'
+
+  condition:
+    - condition: state
+      entity_id: input_boolean.home_away
+      state: 'off'
+
+  action:
+    - service: light.turn_off
+      entity_id:
+      - group.ceiling
+      - group.lights
+    - service: notify.sockerbot
+      data:
+        message: Good bye
+      
+      
 ######################
 ####### Groups #######
 ######################
@@ -275,6 +306,7 @@ group:
       - group.weather
       - group.info
       - group.dwellers
+      - group.transit
       
   lightsview:
     name: Lights
@@ -316,18 +348,17 @@ group:
     - sensor.weather_hourly_summary
   
   dwellers:
-    name: Dwellers corner
+    name: Dwellers
     entities:
     - device_tracker.shjosan_oneplus2
+
+  transit:
+    name: Transit
+    entities:
     - sensor.home_to_work
     - sensor.phone_to_work
     - sensor.phone_to_whovalley 
 
-#  transit:
-#    name: Transit
-#    entities:
-  
-    
   ceiling:
     name: Ceiling
     entities:

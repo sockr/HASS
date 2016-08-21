@@ -69,7 +69,7 @@ sensor.sab_queue:
 #############################
 
 device_tracker.shjosan_oneplus2:
-  icon: mdi:human
+  entity_picture: /local/joel.jpg
   friendly_name: 'Joel'
   
 sensor.home_to_work:
