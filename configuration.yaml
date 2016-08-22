@@ -236,16 +236,24 @@ scene:
         state: off
       light.sovrum:
         state: off
-      
 
-        
+
+#############################
+####### Input Boolean #######
+#############################      
+
+input_boolean:
+  home_away:
+    name: Disable Home / Away Mode
+    initial: off
+    icon: mdi:map-marker-off       
         
 ##########################
 ####### Automation #######
 ##########################
 
 automation:
-- alias: 'Coming Home'
+- alias: 'Coming Home Late'
   trigger:
    - platform: state
      entity_id: group.dwellers
@@ -269,7 +277,7 @@ automation:
         color_temp: 500
     - service: notify.sockerbot
       data:
-        message: Welcome home
+        message: Welcome home. Late night out?
 
 - alias: 'Away Mode'
 
@@ -303,18 +311,18 @@ group:
   default_view:
     view: yes
     entities:
-      - group.weather
-      - group.info
       - group.dwellers
       - group.transit
+      - group.info
+      - group.weather
       
   lightsview:
     name: Lights
     view: yes
     entities:
-      - group.lights
-      - group.ceiling
       - group.modes
+      - group.ceiling
+      - group.lights
       
   media:
     name: Media
@@ -324,8 +332,30 @@ group:
       - media_player.my_qv151e
       - media_player.plex_web_chrome
       - media_player.ponyo
+      
+  automation:
+    name: Automation
+    view: yes
+    icon: mdi:settings
+    entities:
+      - group.automation_override
 
-  
+  Automation Override:
+   - input_boolean.home_away
+   
+   
+  dwellers:
+    name: Dwellers
+    entities:
+    - device_tracker.shjosan_oneplus2
+
+  transit:
+    name: Transit
+    entities:
+    - sensor.home_to_work
+    - sensor.phone_to_work
+    - sensor.phone_to_whovalley
+    
   info:
     name: Info
     entities:
@@ -346,18 +376,14 @@ group:
     - sensor.weather_wind_speed
     - sensor.weather_wind_bearing
     - sensor.weather_hourly_summary
-  
-  dwellers:
-    name: Dwellers
+ 
+  modes:
+    name: Light modes
     entities:
-    - device_tracker.shjosan_oneplus2
-
-  transit:
-    name: Transit
-    entities:
-    - sensor.home_to_work
-    - sensor.phone_to_work
-    - sensor.phone_to_whovalley 
+    - scene.normal_mode
+    - scene.kitchen_on
+    - scene.night_lights
+    - scene.all_off
 
   ceiling:
     name: Ceiling
@@ -373,10 +399,4 @@ group:
     - light.sovrum
     - light.kk
     
-  modes:
-    name: Light modes
-    entities:
-    - scene.normal_mode
-    - scene.kitchen_on
-    - scene.night_lights
-    - scene.all_off
+
