@@ -221,6 +221,34 @@ scene:
         brightness: 75
         color_temp: 500
         rgb_color: [51,51,205]
+
+  - name: 'Sunset'
+    entities:
+      light.vardagsrum_tak_1:
+        state: on
+        brightness: 248
+        color_temp: 385
+        rgb_color: [255,213,66]
+      light.vardagsrum_tak_2:
+        state: on
+        brightness: 230
+        color_temp: 500
+        rgb_color: [255,96,0]
+      light.vardagsrum_tak_3:
+        state: on
+        brightness: 248
+        color_temp: 385
+        rgb_color: [255,213,66]
+      light.vardagsrum_tak_4:
+        state: on
+        brightness: 248
+        color_temp: 500
+        rgb_color: [255,170,48]  
+      light.kk:
+        state: on
+        brightness: 249
+        color_temp: 500
+        rgb_color: [255,170,45]
         
   - name: 'All Off'
     entities:
@@ -253,12 +281,36 @@ input_boolean:
 ##########################
 
 automation:
+- alias: 'Coming Home'
+  trigger:
+    - platform: state
+      entity_id: group.dwellers
+      from: 'not_home'
+      to: 'home'
+      
+  condition:
+    condition: and
+    conditions:
+      - condition: time
+        after: '18:00'
+        before: '22:30'
+      - condition: state
+        entity_id: input_boolean.home_away
+        state: 'off'
+        
+  action:
+    - service: scene.turn_on
+      entity_id: scene.sunset
+    - service: notify.sockerbot
+      data:
+        message: Welcome home! Truning lights on!
+        
 - alias: 'Coming Home Late'
   trigger:
-   - platform: state
-     entity_id: group.dwellers
-     from: 'not_home'
-     to: 'home'
+    - platform: state
+      entity_id: group.dwellers
+      from: 'not_home'
+      to: 'home'
       
   condition:
     condition: and
@@ -266,7 +318,11 @@ automation:
       - condition: sun
         after: sunset
       - condition: time
-        before: '23:59'
+        after: '22:30'
+        before: '02:59'
+      - condition: state
+        entity_id: input_boolean.home_away
+        state: 'off'
         
   action:
     - service: light.turn_on
@@ -299,7 +355,7 @@ automation:
       - group.lights
     - service: notify.sockerbot
       data:
-        message: Good bye
+        message: Good bye. Have a nice time!
       
       
 ######################
@@ -382,6 +438,7 @@ group:
     entities:
     - scene.normal_mode
     - scene.kitchen_on
+    - scene.sunset
     - scene.night_lights
     - scene.all_off
 
@@ -398,5 +455,3 @@ group:
     entities:
     - light.sovrum
     - light.kk
-    
-
