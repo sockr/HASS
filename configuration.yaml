@@ -275,7 +275,7 @@ input_boolean:
     name: Disable Home / Away Mode
     initial: off
     icon: mdi:map-marker-off       
-        
+
 ##########################
 ####### Automation #######
 ##########################
@@ -287,31 +287,30 @@ automation:
       entity_id: group.dwellers
       from: 'not_home'
       to: 'home'
-      
   condition:
     condition: and
     conditions:
+      - condition: sun
+        after: sunset
+        after_offset: "-01:00:00"
       - condition: time
-        after: '18:00'
         before: '22:30'
       - condition: state
         entity_id: input_boolean.home_away
         state: 'off'
-        
   action:
     - service: scene.turn_on
       entity_id: scene.sunset
     - service: notify.sockerbot
       data:
         message: Welcome home! Truning lights on!
-        
+
 - alias: 'Coming Home Late'
   trigger:
     - platform: state
       entity_id: group.dwellers
       from: 'not_home'
       to: 'home'
-      
   condition:
     condition: and
     conditions:
@@ -323,31 +322,23 @@ automation:
       - condition: state
         entity_id: input_boolean.home_away
         state: 'off'
-        
   action:
-    - service: light.turn_on
-      entity_id: group.ceiling
-      data:
-        brightness: 111
-        rgb_color: [237,177,89]
-        color_temp: 500
+    - service: scene.turn_on
+      entity_id: scene.night_lights
     - service: notify.sockerbot
       data:
         message: Welcome home. Late night out?
 
 - alias: 'Away Mode'
-
   trigger:
-    - platform: state
-      entity_id: group.dwellers
-      from: 'home'
-      to: 'not_home'
-
+    platform: state
+    entity_id: group.dwellers
+    from: 'home'
+    to: 'not_home'
   condition:
     - condition: state
       entity_id: input_boolean.home_away
       state: 'off'
-
   action:
     - service: light.turn_off
       entity_id:
@@ -356,8 +347,8 @@ automation:
     - service: notify.sockerbot
       data:
         message: Good bye. Have a nice time!
-      
-      
+        
+
 ######################
 ####### Groups #######
 ######################
@@ -397,8 +388,7 @@ group:
       - group.automation_override
 
   Automation Override:
-   - input_boolean.home_away
-   
+   - input_boolean.home_away   
    
   dwellers:
     name: Dwellers
@@ -455,3 +445,4 @@ group:
     entities:
     - light.sovrum
     - light.kk
+    
