@@ -8,7 +8,7 @@ homeassistant:
   customize: !include customize.yaml
 
 http:
-  api_password: !secret http_password
+#  api_password: !secret http_password
   
 
 ##########################
@@ -30,9 +30,8 @@ logger:
      group.settings: critical
 
 light:
-  light:
   platform: hue
-  host: 192.168.2.68
+  host: 192.168.2.40
   allow_unreachable: true
   
 media_player:
@@ -40,23 +39,13 @@ media_player:
   host: 192.168.2.27
 
 device_tracker:
-  - platform: nmap_tracker
-    hosts: 192.168.2.1/24
-    home_interval: 5
-    track_new_devices: no
-    interval_seconds: 30
-  
-  - platform: owntracks
-    max_gps_accuracy: 200
+  platform: nmap_tracker
+  hosts: 192.168.2.5-45
+  home_interval: 5
+  track_new_devices: no
+  interval_seconds: 30
+  consider_home: 120
 
-mqtt:
-  broker: 192.168.2.52
-  port: 1883
-  client_id: home-assistant-1
-  keepalive: 60
-  username: !secret mqtt_user
-  password: !secret mqtt_pass
-  
 notify:
   name: sockerbot
   platform: telegram
@@ -81,15 +70,14 @@ sensor:
     - ping
     - download
     - upload
+      
+  # - platform: plex
+    # host: 192.168.1.80
+    # username: !secret plex_user
+    # password: !secret plex_pass
+    # server: Flashlight
 
-sensor 2:
-  platform: plex
-  host: 192.168.1.80
-  username: !secret plex_user
-  password: !secret plex_pass
-  server: Flashlight
-  
-sensor 3:
+sensor 2:    
   platform: forecast
   api_key: !secret forecast_api
   monitored_conditions:
@@ -100,37 +88,22 @@ sensor 3:
     - wind_bearing
     - precip_type
 
-sensor 4:
-  - platform: google_travel_time
-    name: Home to Work
-    api_key: !secret google_api
-    origin: !secret travel_origin
-    destination: !secret travel_destination
-    options:
-      arrival_time: 08:00:00
-      mode: transit
-      
-  - platform: google_travel_time
-    name: Phone to Work
-    api_key: !secret google_api
-    origin: device_tracker.shjosan_oneplus2
-    destination: zone.work
-    
-  - platform: google_travel_time
-    name: Phone to WhoValley
-    api_key: !secret google_api
-    origin: device_tracker.shjosan_oneplus2
-    destination: zone.whovalley
+  # - platform: google_travel_time
+    # name: Home to Work
+    # api_key: !secret google_api
+    # origin: !secret travel_origin
+    # destination: !secret travel_destination
+    # options:
+      # arrival_time: 08:00:00
+      # mode: transit
 
-sensor 5:
-  platform: sabnzbd
-  name: SAB
-  api_key: !secret sab_api
-  base_url: !secret sab_url
-  monitored_variables:
-    - type: 'current_status'
-    - type: 'queue_size'
-#   - type: 'queue_remaining'
+  # - platform: sabnzbd
+    # name: SAB
+    # api_key: !secret sab_api
+    # base_url: !secret sab_url
+    # monitored_variables:
+      # - 'current_status'
+      # - 'queue_size'
       
 #####################    
 ####### Zones #######
@@ -366,14 +339,23 @@ group:
   lightsview:
     name: Lights
     view: yes
+    icon: mdi:lightbulb
     entities:
-      - group.modes
       - group.ceiling
       - group.lights
+
+  lightsmodes:
+    name: Lights modes
+    view: yes
+    icon: mdi:spotlight-beam
+    entities:
+      - group.modes
+
       
   media:
     name: Media
     view: yes
+    icon: mdi:youtube-play
     entities:
       - media_player.kurvan
       - media_player.my_qv151e
@@ -393,15 +375,13 @@ group:
   dwellers:
     name: Dwellers
     entities:
-    - device_tracker.shjosan_oneplus2
+    - device_tracker.c0eefb4a7df9
 
-  transit:
-    name: Transit
-    entities:
-    - sensor.home_to_work
-    - sensor.phone_to_work
-    - sensor.phone_to_whovalley
-    
+#  transit:
+#    name: Transit
+#    entities:
+#    - sensor.home_to_work
+   
   info:
     name: Info
     entities:

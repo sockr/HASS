@@ -68,18 +68,10 @@ sensor.sab_queue:
 ###### Dwellers Corner ######
 #############################
 
-device_tracker.shjosan_oneplus2:
+device_tracker.c0eefb4a7df9:
   entity_picture: /local/joel.jpg
   friendly_name: 'Joel'
   
 sensor.home_to_work:
   icon: mdi:bus
   friendly_name: 'Home to Work'
-  
-sensor.phone_to_work:
-  icon: mdi:car
-  friendly_name: 'Phone to Work'
-  
-sensor.phone_to_whovalley:
-  icon: mdi:car
-  friendly_name: 'Phone to WhoValley'
