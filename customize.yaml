@@ -22,27 +22,27 @@ sensor.speedtest_upload:
 ###### Forecast ######
 ######################
 
-sensor.weather_summary:
+sensor.forecastio_summary:
   icon: mdi:weather-cloudy
   friendly_name: 'Summary'
 
-sensor.weather_temperature:
+sensor.forecastio_temperature:
   icon: mdi:temperature-celsius
   friendly_name: 'Temp'
   
-sensor.weather_wind_speed:
+sensor.forecastio_wind_speed:
   icon: mdi:weather-windy
   friendly_name: 'Wind'
   
-sensor.weather_wind_bearing:
+sensor.forecastio_wind_bearing:
   icon: mdi:trending-up
   friendly_name: 'Wind direction'
 
-sensor.precip_type:
+sensor.forecastio_precip:
   icon: mdi:weather-snowy-rainy
   friendly_name: 'Precipitation'  
 
-sensor.weather_hourly_summary:
+sensor.forecastio_hourly_summary:
   icon: mdi:weather-sunny
   friendly_name: 'Forecast'
   
@@ -74,4 +74,4 @@ device_tracker.c0eefb4a7df9:
   
 sensor.home_to_work:
   icon: mdi:bus
-  friendly_name: 'Home to Work'
+  friendly_name: 'Time to Work'

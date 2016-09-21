@@ -63,21 +63,24 @@ sensor:
   minute: 30
   hour:
     - 0
-    - 6
+    - 4
+    - 8
     - 12
-    - 18
+    - 16
+    - 20
   monitored_conditions:
     - ping
     - download
     - upload
-      
-  # - platform: plex
-    # host: 192.168.1.80
-    # username: !secret plex_user
-    # password: !secret plex_pass
-    # server: Flashlight
+    
+sensor 2:
+  platform: plex
+  host: 192.168.1.80
+  username: !secret plex_user
+  password: !secret plex_pass
+  server: Flashlight
 
-sensor 2:    
+sensor 3:    
   platform: forecast
   api_key: !secret forecast_api
   monitored_conditions:
@@ -88,22 +91,25 @@ sensor 2:
     - wind_bearing
     - precip_type
 
-  # - platform: google_travel_time
-    # name: Home to Work
-    # api_key: !secret google_api
-    # origin: !secret travel_origin
-    # destination: !secret travel_destination
-    # options:
-      # arrival_time: 08:00:00
-      # mode: transit
+sensor 4:
+  platform: google_travel_time
+  name: Home to Work
+  api_key: !secret google_api
+  origin: !secret travel_origin
+  destination: !secret travel_destination
+  options:
+    arrival_time: 08:00:00
+    mode: transit
 
-  # - platform: sabnzbd
-    # name: SAB
-    # api_key: !secret sab_api
-    # base_url: !secret sab_url
-    # monitored_variables:
-      # - 'current_status'
-      # - 'queue_size'
+sensor 5:
+  platform: sabnzbd
+  name: SAB
+  api_key: !secret sab_api
+  host: !secret sab_url
+  port: 8080
+  monitored_variables:
+    - 'current_status'
+    - 'queue_size'
       
 #####################    
 ####### Zones #######
@@ -350,8 +356,7 @@ group:
     icon: mdi:spotlight-beam
     entities:
       - group.modes
-
-      
+   
   media:
     name: Media
     view: yes
@@ -376,11 +381,7 @@ group:
     name: Dwellers
     entities:
     - device_tracker.c0eefb4a7df9
-
-#  transit:
-#    name: Transit
-#    entities:
-#    - sensor.home_to_work
+    - sensor.home_to_work
    
   info:
     name: Info
@@ -396,12 +397,12 @@ group:
     name: Weather
     entities:
     - sun.sun
-    - sensor.weather_summary
-    - sensor.weather_temperature
-    - sensor.weather_precip_type
-    - sensor.weather_wind_speed
-    - sensor.weather_wind_bearing
-    - sensor.weather_hourly_summary
+    - sensor.forecastio_hourly_summary
+    - sensor.forecastio_summary
+    - sensor.forecastio_temperature
+    - sensor.forecastio_precip
+    - sensor.forecastio_wind_speed
+    - sensor.forecastio_wind_bearing
  
   modes:
     name: Light modes
