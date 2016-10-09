@@ -22,27 +22,27 @@ sensor.speedtest_upload:
 ###### Forecast ######
 ######################
 
-sensor.forecastio_summary:
+sensor.dark_sky_summary:
   icon: mdi:weather-cloudy
   friendly_name: 'Summary'
 
-sensor.forecastio_temperature:
+sensor.dark_sky_temperature:
   icon: mdi:temperature-celsius
   friendly_name: 'Temp'
   
-sensor.forecastio_wind_speed:
+sensor.dark_sky_wind_speed:
   icon: mdi:weather-windy
   friendly_name: 'Wind'
   
-sensor.forecastio_wind_bearing:
+sensor.dark_sky_wind_bearing:
   icon: mdi:trending-up
   friendly_name: 'Wind direction'
 
-sensor.forecastio_precip:
+sensor.dark_sky_precip:
   icon: mdi:weather-snowy-rainy
   friendly_name: 'Precipitation'  
 
-sensor.forecastio_hourly_summary:
+sensor.dark_sky_hourly_summary:
   icon: mdi:weather-sunny
   friendly_name: 'Forecast'
   

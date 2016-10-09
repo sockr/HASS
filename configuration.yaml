@@ -44,7 +44,8 @@ device_tracker:
   home_interval: 5
   track_new_devices: no
   interval_seconds: 30
-  consider_home: 120
+  consider_home: 50
+
 
 notify:
   name: sockerbot
@@ -81,7 +82,7 @@ sensor 2:
   server: Flashlight
 
 sensor 3:    
-  platform: forecast
+  platform: darksky
   api_key: !secret forecast_api
   monitored_conditions:
     - summary
@@ -267,13 +268,28 @@ automation:
       from: 'not_home'
       to: 'home'
   condition:
+    condition: state
+    entity_id: input_boolean.home_away
+    state: 'off'
+  action:
+    - service: notify.sockerbot
+      data:
+        message: Welcome home!
+        
+- alias: 'Coming Home Evening'
+  trigger:
+    - platform: state
+      entity_id: group.dwellers
+      from: 'not_home'
+      to: 'home'
+  condition:
     condition: and
     conditions:
       - condition: sun
         after: sunset
         after_offset: "-01:00:00"
       - condition: time
-        before: '22:30'
+        before: '21:30'
       - condition: state
         entity_id: input_boolean.home_away
         state: 'off'
@@ -282,7 +298,7 @@ automation:
       entity_id: scene.sunset
     - service: notify.sockerbot
       data:
-        message: Welcome home! Truning lights on!
+        message: Truning lights on!
 
 - alias: 'Coming Home Late'
   trigger:
@@ -296,7 +312,7 @@ automation:
       - condition: sun
         after: sunset
       - condition: time
-        after: '22:30'
+        after: '21:30'
         before: '02:59'
       - condition: state
         entity_id: input_boolean.home_away
@@ -306,7 +322,7 @@ automation:
       entity_id: scene.night_lights
     - service: notify.sockerbot
       data:
-        message: Welcome home. Late night out?
+        message: Late night out?
 
 - alias: 'Away Mode'
   trigger:
@@ -327,7 +343,6 @@ automation:
       data:
         message: Good bye. Have a nice time!
         
-
 ######################
 ####### Groups #######
 ######################
@@ -397,12 +412,12 @@ group:
     name: Weather
     entities:
     - sun.sun
-    - sensor.forecastio_hourly_summary
-    - sensor.forecastio_summary
-    - sensor.forecastio_temperature
-    - sensor.forecastio_precip
-    - sensor.forecastio_wind_speed
-    - sensor.forecastio_wind_bearing
+    - sensor.dark_sky_hourly_summary
+    - sensor.dark_sky_summary
+    - sensor.dark_sky_temperature
+    - sensor.dark_sky_precip
+    - sensor.dark_sky_wind_speed
+    - sensor.dark_sky_wind_bearing
  
   modes:
     name: Light modes
