@@ -343,6 +343,27 @@ automation:
       data:
         message: Good bye. Have a nice time!
         
+- alias: 'To night'
+  trigger:
+    - platform: time
+      hours: '21'
+      minutes: '30'
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: group.dwellers
+        state: 'home'
+      - condition: state
+        entity_id: input_boolean.home_away
+        state: 'off' 
+  action:
+    - service: scene.turn_on
+      entity_id: scene.night_lights
+    - service: notify.sockerbot
+      data:
+        message: It's getting late. Change lights.      
+        
 ######################
 ####### Groups #######
 ######################
