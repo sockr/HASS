@@ -157,8 +157,17 @@ input_boolean:
 
 automation: !include automation.yaml
 
-scene: !include scenes.yaml
 
-group: !include groups.yaml
+######################
+####### Scenes #######
+######################
 
-    
+scene: !include scene.yaml
+
+
+        
+######################
+####### Groups #######
+######################
+
+group: !include groups.yaml 
