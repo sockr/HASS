@@ -1,0 +1,183 @@
+######################
+####### Scenes #######
+######################
+
+  - name: 'Normal Mode'
+    entities:
+      light.vardagsrum_tak_1:
+        state: on
+        brightness: 49
+        color_temp: 424
+        rgb_color: [152,110,51]
+      light.vardagsrum_tak_2:
+        state: on
+        brightness: 49
+        color_temp: 424
+        rgb_color: [152,110,51]
+      light.vardagsrum_tak_3:
+        state: on
+        brightness: 49
+        color_temp: 424
+        rgb_color: [152,110,51]
+      light.vardagsrum_tak_4:
+        state: on
+        brightness: 49
+        color_temp: 424
+        rgb_color: [152,110,51]
+        
+  - name: 'Kitchen On'
+    entities:
+      light.kk:
+        state: on
+        brightness: 254
+        color_temp: 199
+        rgb_color: [255,240,219]
+        
+  - name: 'Night Lights'
+    entities:
+      light.vardagsrum_tak_1:
+        state: on
+        brightness: 12
+        color_temp: 500
+        rgb_color: [51,51,205]
+      light.vardagsrum_tak_2:
+        state: on
+        brightness: 12
+        color_temp: 500
+        rgb_color: [51,51,205]
+      light.vardagsrum_tak_3:
+        state: on
+        brightness: 12
+        color_temp: 500
+        rgb_color: [51,51,205]
+      light.vardagsrum_tak_4:
+        state: on
+        brightness: 12
+        color_temp: 500
+        rgb_color: [51,51,205]  
+      light.kk:
+        state: on
+        brightness: 75
+        color_temp: 500
+        rgb_color: [51,51,205]
+      light.hallampa:
+        state: on
+        brightness: 74
+        color_temp: 154
+        rgb_color: [17,17,73]
+
+  - name: 'Sunset'
+    entities:
+      light.vardagsrum_tak_1:
+        state: on
+        brightness: 248
+        color_temp: 385
+        rgb_color: [255,213,66]
+      light.vardagsrum_tak_2:
+        state: on
+        brightness: 230
+        color_temp: 500
+        rgb_color: [255,96,0]
+      light.vardagsrum_tak_3:
+        state: on
+        brightness: 248
+        color_temp: 385
+        rgb_color: [255,213,66]
+      light.vardagsrum_tak_4:
+        state: on
+        brightness: 248
+        color_temp: 500
+        rgb_color: [255,170,48]  
+      light.kk:
+        state: on
+        brightness: 249
+        color_temp: 500
+        rgb_color: [255,170,45]
+      light.hallampa:
+        state: on
+        brightness: 171
+        color_temp: 154
+        rgb_color: [170, 135, 52]
+        
+  - name: 'All Off'
+    entities:
+      light.vardagsrum_tak_1:
+        state: off
+      light.vardagsrum_tak_2:
+        state: off
+      light.vardagsrum_tak_3:
+        state: off
+      light.vardagsrum_tak_4:
+        state: off
+      light.kk:
+        state: off
+      light.sovrum:
+        state: off
+      light.hallampa:
+        state: off
+        
+  - name: 'Club'
+    entities:
+      light.vardagsrum_tak_1:
+        state: on
+        brightness: 179
+        color_temp: 500
+        rgb_color: [74,74,255]
+      light.vardagsrum_tak_2:
+        state: on
+        brightness: 160
+        color_temp: 299
+        rgb_color: [255,106,255]
+      light.vardagsrum_tak_3:
+        state: on
+        brightness: 148
+        color_temp: 385
+        rgb_color: [255,97,129]
+      light.vardagsrum_tak_4:
+        state: on
+        brightness: 222
+        color_temp: 500
+        rgb_color: [71,72,255]  
+      light.kk:
+        state: on
+        brightness: 166
+        color_temp: 500
+        rgb_color: [255,87,130]
+      light.hallampa:
+        state: on
+        brightness: 127
+        color_temp: 154
+        rgb_color: [77, 0, 127]
+        
+  - name: 'Forest'
+    entities:
+      light.vardagsrum_tak_1:
+        state: on
+        brightness: 24
+        color_temp: 290
+        rgb_color: [87,87,22]
+      light.vardagsrum_tak_2:
+        state: on
+        brightness: 22
+        color_temp: 281
+        rgb_color: [83,83,25]
+      light.vardagsrum_tak_3:
+        state: on
+        brightness: 43
+        color_temp: 290
+        rgb_color: [115,115,32]
+      light.vardagsrum_tak_4:
+        state: on
+        brightness: 24
+        color_temp: 290
+        rgb_color: [87,87,22]  
+      light.kk:
+        state: on
+        brightness: 51
+        color_temp: 153
+        rgb_color: [47,138,71]
+      light.hallampa:
+        state: on
+        brightness: 127
+        color_temp: 154
+        rgb_color: [0, 126, 55]

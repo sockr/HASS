@@ -1,0 +1,107 @@
+##########################
+####### Automation #######
+##########################
+
+- alias: 'Coming Home'
+  trigger:
+    - platform: state
+      entity_id: group.dwellers
+      from: 'not_home'
+      to: 'home'
+  condition:
+    condition: state
+    entity_id: input_boolean.home_away
+    state: 'off'
+  action:
+    - service: notify.sockerbot
+      data:
+        message: Welcome home!
+        
+- alias: 'Coming Home Evening'
+  trigger:
+    - platform: state
+      entity_id: group.dwellers
+      from: 'not_home'
+      to: 'home'
+  condition:
+    condition: and
+    conditions:
+      - condition: sun
+        after: sunset
+        after_offset: "-01:00:00"
+      - condition: time
+        before: '21:30'
+      - condition: state
+        entity_id: input_boolean.home_away
+        state: 'off'
+  action:
+    - service: scene.turn_on
+      entity_id: scene.sunset
+    - service: notify.sockerbot
+      data:
+        message: Truning lights on!
+
+- alias: 'Coming Home Late'
+  trigger:
+    - platform: state
+      entity_id: group.dwellers
+      from: 'not_home'
+      to: 'home'
+  condition:
+    condition: and
+    conditions:
+      - condition: sun
+        after: sunset
+      - condition: time
+        after: '21:30'
+        before: '02:59'
+      - condition: state
+        entity_id: input_boolean.home_away
+        state: 'off'
+  action:
+    - service: scene.turn_on
+      entity_id: scene.night_lights
+    - service: notify.sockerbot
+      data:
+        message: Late night out?
+
+- alias: 'Away Mode'
+  trigger:
+    platform: state
+    entity_id: group.dwellers
+    from: 'home'
+    to: 'not_home'
+  condition:
+    - condition: state
+      entity_id: input_boolean.home_away
+      state: 'off'
+  action:
+    - service: light.turn_off
+      entity_id:
+      - group.ceiling
+      - group.lights
+    - service: notify.sockerbot
+      data:
+        message: Good bye. Have a nice time!
+        
+- alias: 'To night'
+  trigger:
+    - platform: time
+      hours: '21'
+      minutes: '30'
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: group.dwellers
+        state: 'home'
+      - condition: state
+        entity_id: input_boolean.home_away
+        state: 'off' 
+  action:
+    - service: scene.turn_on
+      entity_id: scene.night_lights
+    - service: notify.sockerbot
+      data:
+        message: It's getting late. Change lights.      
+        

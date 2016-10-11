@@ -30,13 +30,16 @@ logger:
      group.settings: critical
 
 light:
-  platform: hue
-  host: 192.168.2.40
-  allow_unreachable: true
+  - platform: hue
+    host: 192.168.2.40
+    allow_unreachable: true    
+  - platform: lifx
+    brodcast: 192.168.2.255
   
 media_player:
-  platform: cast
-  host: 192.168.2.27
+  - platform: cast
+    host: 192.168.2.27
+  - platform: plex
 
 device_tracker:
   platform: nmap_tracker
@@ -138,114 +141,6 @@ zone 3:
   icon: mdi:gondola
   passive: true
 
-######################
-####### Scenes #######
-######################
-
-scene:
-  - name: 'Normal Mode'
-    entities:
-      light.vardagsrum_tak_1:
-        state: on
-        brightness: 49
-        color_temp: 424
-        rgb_color: [152,110,51]
-      light.vardagsrum_tak_2:
-        state: on
-        brightness: 49
-        color_temp: 424
-        rgb_color: [152,110,51]
-      light.vardagsrum_tak_3:
-        state: on
-        brightness: 49
-        color_temp: 424
-        rgb_color: [152,110,51]
-      light.vardagsrum_tak_4:
-        state: on
-        brightness: 49
-        color_temp: 424
-        rgb_color: [152,110,51]
-        
-  - name: 'Kitchen On'
-    entities:
-      light.kk:
-        state: on
-        brightness: 254
-        color_temp: 199
-        rgb_color: [255,240,219]
-        
-  - name: 'Night Lights'
-    entities:
-      light.vardagsrum_tak_1:
-        state: on
-        brightness: 12
-        color_temp: 500
-        rgb_color: [51,51,205]
-      light.vardagsrum_tak_2:
-        state: on
-        brightness: 12
-        color_temp: 500
-        rgb_color: [51,51,205]
-      light.vardagsrum_tak_3:
-        state: on
-        brightness: 12
-        color_temp: 500
-        rgb_color: [51,51,205]
-      light.vardagsrum_tak_4:
-        state: on
-        brightness: 12
-        color_temp: 500
-        rgb_color: [51,51,205]  
-      light.kk:
-        state: on
-        brightness: 75
-        color_temp: 500
-        rgb_color: [51,51,205]
-
-  - name: 'Sunset'
-    entities:
-      light.vardagsrum_tak_1:
-        state: on
-        brightness: 248
-        color_temp: 385
-        rgb_color: [255,213,66]
-      light.vardagsrum_tak_2:
-        state: on
-        brightness: 230
-        color_temp: 500
-        rgb_color: [255,96,0]
-      light.vardagsrum_tak_3:
-        state: on
-        brightness: 248
-        color_temp: 385
-        rgb_color: [255,213,66]
-      light.vardagsrum_tak_4:
-        state: on
-        brightness: 248
-        color_temp: 500
-        rgb_color: [255,170,48]  
-      light.kk:
-        state: on
-        brightness: 249
-        color_temp: 500
-        rgb_color: [255,170,45]
-        
-  - name: 'All Off'
-    entities:
-      light.vardagsrum_tak_1:
-        state: off
-      light.vardagsrum_tak_2:
-        state: off
-      light.vardagsrum_tak_3:
-        state: off
-      light.vardagsrum_tak_4:
-        state: off
-      light.kk:
-        state: off
-      light.sovrum:
-        state: off
-
-
 #############################
 ####### Input Boolean #######
 #############################      
@@ -257,209 +152,13 @@ input_boolean:
     icon: mdi:map-marker-off       
 
 ##########################
-####### Automation #######
+######## Includes ########
 ##########################
 
-automation:
-- alias: 'Coming Home'
-  trigger:
-    - platform: state
-      entity_id: group.dwellers
-      from: 'not_home'
-      to: 'home'
-  condition:
-    condition: state
-    entity_id: input_boolean.home_away
-    state: 'off'
-  action:
-    - service: notify.sockerbot
-      data:
-        message: Welcome home!
-        
-- alias: 'Coming Home Evening'
-  trigger:
-    - platform: state
-      entity_id: group.dwellers
-      from: 'not_home'
-      to: 'home'
-  condition:
-    condition: and
-    conditions:
-      - condition: sun
-        after: sunset
-        after_offset: "-01:00:00"
-      - condition: time
-        before: '21:30'
-      - condition: state
-        entity_id: input_boolean.home_away
-        state: 'off'
-  action:
-    - service: scene.turn_on
-      entity_id: scene.sunset
-    - service: notify.sockerbot
-      data:
-        message: Truning lights on!
+automation: !include automation.yaml
 
-- alias: 'Coming Home Late'
-  trigger:
-    - platform: state
-      entity_id: group.dwellers
-      from: 'not_home'
-      to: 'home'
-  condition:
-    condition: and
-    conditions:
-      - condition: sun
-        after: sunset
-      - condition: time
-        after: '21:30'
-        before: '02:59'
-      - condition: state
-        entity_id: input_boolean.home_away
-        state: 'off'
-  action:
-    - service: scene.turn_on
-      entity_id: scene.night_lights
-    - service: notify.sockerbot
-      data:
-        message: Late night out?
+scene: !include scenes.yaml
 
-- alias: 'Away Mode'
-  trigger:
-    platform: state
-    entity_id: group.dwellers
-    from: 'home'
-    to: 'not_home'
-  condition:
-    - condition: state
-      entity_id: input_boolean.home_away
-      state: 'off'
-  action:
-    - service: light.turn_off
-      entity_id:
-      - group.ceiling
-      - group.lights
-    - service: notify.sockerbot
-      data:
-        message: Good bye. Have a nice time!
-        
-- alias: 'To night'
-  trigger:
-    - platform: time
-      hours: '21'
-      minutes: '30'
-  condition:
-    condition: and
-    conditions:
-      - condition: state
-        entity_id: group.dwellers
-        state: 'home'
-      - condition: state
-        entity_id: input_boolean.home_away
-        state: 'off' 
-  action:
-    - service: scene.turn_on
-      entity_id: scene.night_lights
-    - service: notify.sockerbot
-      data:
-        message: It's getting late. Change lights.      
-        
-######################
-####### Groups #######
-######################
+group: !include groups.yaml
 
-group:
-
-  default_view:
-    view: yes
-    entities:
-      - group.dwellers
-      - group.transit
-      - group.info
-      - group.weather
-      
-  lightsview:
-    name: Lights
-    view: yes
-    icon: mdi:lightbulb
-    entities:
-      - group.ceiling
-      - group.lights
-
-  lightsmodes:
-    name: Lights modes
-    view: yes
-    icon: mdi:spotlight-beam
-    entities:
-      - group.modes
-   
-  media:
-    name: Media
-    view: yes
-    icon: mdi:youtube-play
-    entities:
-      - media_player.kurvan
-      - media_player.my_qv151e
-      - media_player.plex_web_chrome
-      - media_player.ponyo
-      
-  automation:
-    name: Automation
-    view: yes
-    icon: mdi:settings
-    entities:
-      - group.automation_override
-
-  Automation Override:
-   - input_boolean.home_away   
-   
-  dwellers:
-    name: Dwellers
-    entities:
-    - device_tracker.c0eefb4a7df9
-    - sensor.home_to_work
-   
-  info:
-    name: Info
-    entities:
-    - sensor.speedtest_ping
-    - sensor.speedtest_download
-    - sensor.speedtest_upload
-    - sensor.plex
-    - sensor.sab_status
-    - sensor.sab_queue
-
-  weather:
-    name: Weather
-    entities:
-    - sun.sun
-    - sensor.dark_sky_hourly_summary
-    - sensor.dark_sky_summary
-    - sensor.dark_sky_temperature
-    - sensor.dark_sky_precip
-    - sensor.dark_sky_wind_speed
-    - sensor.dark_sky_wind_bearing
- 
-  modes:
-    name: Light modes
-    entities:
-    - scene.normal_mode
-    - scene.kitchen_on
-    - scene.sunset
-    - scene.night_lights
-    - scene.all_off
-
-  ceiling:
-    name: Ceiling
-    entities:
-    - light.vardagsrum_tak_1
-    - light.vardagsrum_tak_2
-    - light.vardagsrum_tak_3
-    - light.vardagsrum_tak_4
-   
-  lights:
-    name: Other lights
-    entities:
-    - light.sovrum
-    - light.kk
     

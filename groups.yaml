@@ -1,0 +1,103 @@
+######################
+####### Groups #######
+######################
+
+  default_view:
+    view: yes
+    entities:
+      - group.dwellers
+      - group.transit
+      - group.info
+      - group.weather
+      
+  lightsview:
+    name: Lights
+    view: yes
+    icon: mdi:lightbulb
+    entities:
+      - group.ceiling
+      - group.lights
+
+  lightsmodes:
+    name: Lights modes
+    view: yes
+    icon: mdi:spotlight-beam
+    entities:
+      - group.modes
+      - group.functions
+   
+  media:
+    name: Media
+    view: yes
+    icon: mdi:youtube-play
+    entities:
+      - media_player.kurvan
+      - media_player.plex_web_chrome
+      - media_player.ponyo
+      
+  automation:
+    name: Automation
+    view: yes
+    icon: mdi:settings
+    entities:
+      - group.automation_override
+
+  Automation Override:
+   - input_boolean.home_away   
+   
+  dwellers:
+    name: Dwellers
+    entities:
+    - device_tracker.c0eefb4a7df9
+    - sensor.home_to_work
+   
+  info:
+    name: Info
+    entities:
+    - sensor.speedtest_ping
+    - sensor.speedtest_download
+    - sensor.speedtest_upload
+    - sensor.plex
+    - sensor.sab_status
+    - sensor.sab_queue
+
+  weather:
+    name: Weather
+    entities:
+    - sun.sun
+    - sensor.dark_sky_hourly_summary
+    - sensor.dark_sky_summary
+    - sensor.dark_sky_temperature
+    - sensor.dark_sky_precip
+    - sensor.dark_sky_wind_speed
+    - sensor.dark_sky_wind_bearing
+ 
+  modes:
+    name: Mode Lighting
+    entities:
+    - scene.forest
+    - scene.club
+    - scene.sunset
+    - scene.night_lights
+  
+  functions:
+    name: Functions
+    entities:
+    - scene.all_off
+    - scene.kitchen_on
+    - scene.normal_mode
+
+  ceiling:
+    name: Ceiling
+    entities:
+    - light.vardagsrum_tak_1
+    - light.vardagsrum_tak_2
+    - light.vardagsrum_tak_3
+    - light.vardagsrum_tak_4
+   
+  lights:
+    name: Other lights
+    entities:
+    - light.hallampa
+    - light.sovrum
+    - light.kk
