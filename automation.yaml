@@ -89,6 +89,7 @@
     - platform: time
       hours: '21'
       minutes: '30'
+      seconds: '01'
   condition:
     condition: and
     conditions:
