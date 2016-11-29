@@ -22,7 +22,7 @@ frontend:
 discovery:
 sun:
 recorder:
-  purge_days: 4
+  purge_days: 7
 
 logger:
     default: info
@@ -42,12 +42,17 @@ media_player:
   - platform: plex
 
 device_tracker:
-  platform: nmap_tracker
-  hosts: 192.168.2.5-45
-  home_interval: 5
-  track_new_devices: no
-  interval_seconds: 30
-  consider_home: 50
+#  platform: nmap_tracker
+#  hosts: 192.168.2.15-45
+#  home_interval: 5
+#  track_new_devices: no
+#  interval_seconds: 30
+#  consider_home: 70
+  - platform: unifi
+    username: !secret unifi_user
+    password: !secret unifi_pass
+    track_new_devices: no
+    interval_seconds: 10
 
 
 notify:
@@ -149,8 +154,13 @@ input_boolean:
   home_away:
     name: Disable Home / Away Mode
     initial: off
-    icon: mdi:map-marker-off       
+    icon: mdi:map-marker-off    
 
+  alarm:
+    name: Weekday Alarm
+    initial: on
+    icon: mdi:alarm-check
+    
 ##########################
 ######## Includes ########
 ##########################

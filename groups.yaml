@@ -43,12 +43,13 @@
       - group.automation_override
 
   Automation Override:
-   - input_boolean.home_away   
+   - input_boolean.home_away
+   - input_boolean.alarm   
    
   dwellers:
     name: Dwellers
     entities:
-    - device_tracker.c0eefb4a7df9
+    - device_tracker.androidbcb49df4e75b10a8
     - sensor.home_to_work
    
   info:
@@ -100,4 +101,4 @@
     entities:
     - light.hallampa
     - light.sovrum
-    - light.kk
+    - light.kok

@@ -68,7 +68,7 @@ sensor.sab_queue:
 ###### Dwellers Corner ######
 #############################
 
-device_tracker.c0eefb4a7df9:
+device_tracker.androidbcb49df4e75b10a8:
   entity_picture: /local/joel.jpg
   friendly_name: 'Joel'
   

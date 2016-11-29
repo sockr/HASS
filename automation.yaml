@@ -104,5 +104,30 @@
       entity_id: scene.night_lights
     - service: notify.sockerbot
       data:
-        message: It's getting late. Change lights.      
-        
+        message: It's getting late. Change lights.   
+
+- alias: 'Get Up'
+  trigger:
+    - platform: time
+      hours: '06'
+      minutes: '30'
+      seconds: '01'
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: group.dwellers
+        state: 'home'
+      - condition: state
+        entity_id: input_boolean.home_away
+        state: 'off' 
+      - condition: state
+        entity_id: input_boolean.alarm
+        state: 'on' 
+  action:
+    - service: light.turn_on
+      entity_id: light.sovrum
+      data:
+       xy_color: [ 0.4362, 0.4038 ]
+       brightness: 254
+       color_temp: 333
