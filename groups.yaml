@@ -9,6 +9,7 @@
       - group.transit
       - group.info
       - group.weather
+      - group.family
       
   lightsview:
     name: Lights
@@ -51,6 +52,12 @@
     entities:
     - device_tracker.androidbcb49df4e75b10a8
     - sensor.home_to_work
+  
+  family:
+    name: Family
+    entities:
+    - device_tracker.android6694d4568a887416
+    - device_tracker.android7d31aacb181f123b
    
   info:
     name: Info
