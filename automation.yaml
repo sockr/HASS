@@ -131,3 +131,65 @@
        xy_color: [ 0.4362, 0.4038 ]
        brightness: 254
        color_temp: 333
+    
+##############################
+#####  Family at home   ######
+##############################
+   
+- alias: 'Family arrives'
+  trigger:
+    - platform: state
+      entity_id: group.family
+      from: 'not_home'
+      to: 'home'
+  condition:
+    condition: state
+    entity_id: input_boolean.home_away
+    state: 'off'
+  action:
+    - service: notify.sockerbot
+      data:
+        message: Family is at your place!
+        
+- alias: 'Family Lights'
+  trigger:
+    - platform: state
+      entity_id: group.family
+      from: 'not_home'
+      to: 'home'
+  condition:
+    condition: and
+    conditions:
+      - condition: sun
+        after: sunrise
+      - condition: time
+        before: '21:30'
+      - condition: state
+        entity_id: input_boolean.home_away
+        state: 'off'
+  action:
+    - service: scene.turn_on
+      entity_id: scene.sunset
+    - service: notify.sockerbot
+      data:
+        message: Truning lights on for them!
+        
+- alias: 'Away Mode'
+  trigger:
+    platform: state
+    entity_id: group.family
+    from: 'home'
+    to: 'not_home'
+  condition:
+    - condition: state
+      entity_id: input_boolean.home_away
+      state: 'off'
+  action:
+    - service: light.turn_off
+      entity_id:
+      - group.ceiling
+      - group.lights
+    - service: notify.sockerbot
+      data:
+        message: Family has left. Truning all lights off.
+        
