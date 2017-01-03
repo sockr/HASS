@@ -35,6 +35,7 @@
       - media_player.kurvan
       - media_player.plex_web_chrome
       - media_player.ponyo
+      - media_player.kitchen
       
   automation:
     name: Automation
